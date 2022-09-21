@@ -14,9 +14,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import convert from 'xml-js'
-const url = 'https://www.reforma.com/rss/ciudad.xml'
+import { getApi } from '../helpers/apiget'
 
 export default {
   name: 'ListNews',
@@ -25,19 +23,9 @@ export default {
       noticia: [],
     }
   },
-  methods: {
-    async getApi() {
-      const data = await axios.get(url)
-      const result1 = convert.xml2json(data.data, { compact: true, spaces: 2 })
-      const parseJson = JSON.parse(result1)
-      const listNoticia = parseJson.rss.channel.item.map((item) => {
-        return item
-      })
-      return listNoticia
-    },
-  },
+
   created: async function () {
-    this.noticia = await this.getApi()
+    this.noticia = await getApi()
   },
 }
 </script>
